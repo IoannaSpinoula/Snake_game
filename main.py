@@ -177,7 +177,7 @@ class MAIN:
         pygame.draw.rect(screen,(56,74,12),bg_rect,2)
 
 pygame.init()
-cell_size = 35
+cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 clock = pygame.time.Clock()
