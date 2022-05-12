@@ -259,7 +259,7 @@ class MAIN:
 
 
 pygame.init()
-cell_size = 35 #40
+cell_size = 40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 pygame.display.set_caption("Snake game")
