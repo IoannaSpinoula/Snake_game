@@ -30,79 +30,84 @@ class SNAKE:
 
         self.body_tr = pygame.image.load('python ergasia/snake_tail_up_right.xcf').convert_alpha()
         self.body_tl = pygame.image.load('python ergasia/snake_tail_left_up.xcf').convert_alpha()
-        self.body_br =pygame.image.load('python ergasia/snake_tail_right_down.xcf').convert_alpha()
+        self.body_br = pygame.image.load('python ergasia/snake_tail_right_down.xcf').convert_alpha()
         self.body_bl = pygame.image.load('python ergasia/snake_tail_left_down.xcf').convert_alpha()
 
+
     def draw_snake(self):
-        self.update_head()
-        self.update_tail()
+            self.update_head()
+            self.update_tail()
 
-        for index, block in enumerate(self.body):
-            x_pos = int(block.x * self.cell_size)
-            y_pos = int(block.y * self.cell_size)
-            block_rect = pygame.Rect(x_pos, y_pos, self.cell_size, self.cell_size)
+            for index, block in enumerate(self.body):
+                x_pos = int(block.x * self.cell_size)
+                y_pos = int(block.y * self.cell_size)
+                block_rect = pygame.Rect(x_pos, y_pos, self.cell_size, self.cell_size)
 
-            if index == 0:
-                self.screen.blit(self.head, block_rect)
-            elif index == len(self.body) - 1:
-                self.screen.blit(self.tail, block_rect)
-            else:
-                previous_block = self.body[index + 1] - block
-                next_block = self.body[index - 1] - block
-                if previous_block.x == next_block.x:
-                    self.screen.blit(self.body_vertical, block_rect)
-                elif previous_block.y == next_block.y:
-                    self.screen.blit(self.body_horizontal, block_rect)
-                else:
-                    if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
-                        self.screen.blit(self.body_tl, block_rect)
-                    elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
-                        self.screen.blit(self.body_bl, block_rect)
-                    elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
-                        self.screen.blit(self.body_tr, block_rect)
-                    elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
-                        self.screen.blit(self.body_br, block_rect)
+                if index == 0:
+                    self.screen.blit(self.head, block_rect)  #displays the head of the snake
+                elif index == len(self.body) - 1:
+                    self.screen.blit(self.tail, block_rect)  #displays the tail of the snake
+                else:                                        #displays the body of the snake
+                    previous_block = self.body[index + 1] - block
+                    next_block = self.body[index - 1] - block
+                    if previous_block.x == next_block.x:
+                        self.screen.blit(self.body_vertical, block_rect)
+                    elif previous_block.y == next_block.y:
+                        self.screen.blit(self.body_horizontal, block_rect)
+                    else:
+                        if previous_block.x == -1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == -1:
+                            self.screen.blit(self.body_tl, block_rect)
+                        elif previous_block.x == -1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == -1:
+                            self.screen.blit(self.body_bl, block_rect)
+                        elif previous_block.x == 1 and next_block.y == -1 or previous_block.y == -1 and next_block.x == 1:
+                            self.screen.blit(self.body_tr, block_rect)
+                        elif previous_block.x == 1 and next_block.y == 1 or previous_block.y == 1 and next_block.x == 1:
+                            self.screen.blit(self.body_br, block_rect)
 
-    def update_head(self):
-        head_pl = self.body[1] - self.body[0]
-        if head_pl == Vector2(1,0):
-            self.head = self.head_left
-        elif head_pl == Vector2(-1,0):
-            self.head = self.head_right
-        elif head_pl == Vector2(0,1):
-            self.head = self.head_up
-        elif head_pl == Vector2(0,-1):
-            self.head = self.head_down
 
-    def update_tail(self):
-        tail_pl = self.body[-2] - self.body[-1]
-        if tail_pl == Vector2(1, 0):
-            self.tail = self.tail_left
-        elif tail_pl == Vector2(-1, 0):
-            self.tail = self.tail_right
-        elif tail_pl == Vector2(0, 1):
-            self.tail = self.tail_up
-        elif tail_pl == Vector2(0, -1):
+    def update_head(self):   #snake's head direction
+            head_pl = self.body[1] - self.body[0]
+            if head_pl == Vector2(1, 0):
+                self.head = self.head_left
+            elif head_pl == Vector2(-1, 0):
+                self.head = self.head_right
+            elif head_pl == Vector2(0, 1):
+                self.head = self.head_up
+            elif head_pl == Vector2(0, -1):
+                self.head = self.head_down
+
+
+    def update_tail(self):   #snake's tail direction
+            tail_pl = self.body[-2] - self.body[-1]
+            if tail_pl == Vector2(1, 0):
+                self.tail = self.tail_left
+            elif tail_pl == Vector2(-1, 0):
+                self.tail = self.tail_right
+            elif tail_pl == Vector2(0, 1):
+                self.tail = self.tail_up
+            elif tail_pl == Vector2(0, -1):
                 self.tail = self.tail_down
 
 
     def move_snake(self):
-        if self.new_block == True:
-            body_copy = self.body[:]
-            body_copy.insert(0, body_copy[0] + self.direction)
-            self.body = body_copy[:]
-            self.new_block = False
-        else:
-            body_copy = self.body[:-1]
-            body_copy.insert(0, body_copy[0] + self.direction)
-            self.body = body_copy[:]
+            if self.new_block == True:
+                body_copy = self.body[:]
+                body_copy.insert(0, body_copy[0] + self.direction)
+                self.body = body_copy[:]
+                self.new_block = False
+            else:
+                body_copy = self.body[:-1]
+                body_copy.insert(0, body_copy[0] + self.direction)
+                self.body = body_copy[:]
 
-    def add_block(self):
+
+    def add_block(self):   #increases snake's length
         self.new_block = True
 
-    def reset(self):
-        self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
-        self.direction = Vector2(0, 0)
+
+    def reset(self):   #brings the snake's length back to the initial length
+            self.body = [Vector2(5, 10), Vector2(4, 10), Vector2(3, 10)]
+            self.direction = Vector2(0, 0)
 
 class COIN:
     def __init__(self,screen,image_coin,cell_size,cell_number):
@@ -112,33 +117,57 @@ class COIN:
         self.cell_size = cell_size
         self.cell_number = cell_number
 
-    def draw_coin(self):
+    def draw_coin(self):   #displayw the coin
         coin_rect = pygame.Rect(self.pos.x*self.cell_size,self.pos.y*self.cell_size, self.cell_size, self.cell_size)
         self.screen.blit(self.image_coin,coin_rect)
 
-    def randomize(self):
+    def randomize(self):   #coin's position
         self.x = random.randint(0,17)
         self.y = random.randint(0, 17)
         self.pos = Vector2(self.x, self.y)
 
-class ENEMY:
+class ENEMY2:
     def __init__(self,screen,image_enemy,cell_size,cell_number):
-        self.randomize_enemy()
+        self.randomize_enemy2()
         self.screen=screen
         self.image_enemy=image_enemy
         self.cell_size=cell_size
         self.cell_number=cell_number
 
-    def draw_enemy(self):
-        enemy_rect=pygame.Rect(self.pos.x*self.cell_size,self.pos.y*self.cell_size, self.cell_size, self.cell_size)
+    def draw_enemy2(self):   #displays the enemy
+        enemy_rect=pygame.Rect(self.pos2.x*self.cell_size,self.pos2.y*self.cell_size, self.cell_size, self.cell_size)
         self.screen.blit(self.image_enemy,enemy_rect)
 
-    def randomize_enemy(self):
-        self.x = random.randint(0,17)
+    def randomize_enemy2(self):  #enemy's position
+        self.x2 = random.randint(0,17)
+        self.y2 = random.randint(0, 17)
+        self.pos2 = Vector2(self.x2, self.y2)
+
+    def reset_enemy2(self):
+        self.x= self.cell_size*self.cell_number+1
+        self.y= self.cell_size*self.cell_number+1
+
+
+class ENEMY:
+    def __init__(self, screen, image_enemy, cell_size, cell_number):
+        self.randomize_enemy()
+        self.screen = screen
+        self.image_enemy = image_enemy
+        self.cell_size = cell_size
+        self.cell_number = cell_number
+
+    def draw_enemy(self):  #displays the enemy
+        enemy_rect = pygame.Rect(self.pos.x * self.cell_size, self.pos.y * self.cell_size, self.cell_size, self.cell_size)
+        self.screen.blit(self.image_enemy, enemy_rect)
+
+    def randomize_enemy(self):    #enemy's position
+        self.x = random.randint(0, 17)
         self.y = random.randint(0, 17)
         self.pos = Vector2(self.x, self.y)
-        #while abs(self.pos.x-self.snake.body[0].x)<=2 and abs(self.pos.y-self.snake.body[0].y)<=2 :
-            #self.randomize_enemy()
+
+    def reset_enemy(self):
+        self.x= self.cell_size*self.cell_number+1
+        self.y= self.cell_size*self.cell_number+1
 
 
 
@@ -153,6 +182,7 @@ class MAIN:
         self.snake = SNAKE(self.screen, self.image_coin,self.cell_size,self.cell_number)
         self.coin = COIN(self.screen, self.image_coin,self.cell_size,self.cell_number)
         self.enemy=ENEMY(self.screen, self.image_enemy,self.cell_size,self.cell_number)
+        self.enemy2=ENEMY2(self.screen, self.image_enemy, self.cell_size, self.cell_number)
         self.coin_counter=0
 
     def update(self):
@@ -160,13 +190,19 @@ class MAIN:
         self.collision()
         self.failure()
 
-    def draw_stuff(self):
+    def draw_stuff(self):    #displays snake,coins,enemies and the background
         self.make_grass()
         self.coin.draw_coin()
         self.snake.draw_snake()
         self.scoreboard()
-        if self.coin_counter%2!=1 and self.coin_counter>=7:
+        if self.coin_counter==0:
+            self.enemy.reset_enemy()
+            self.enemy2.reset_enemy2()
+        elif self.coin_counter%2!=1 and self.coin_counter>=7:   #displays enemies based on the score
             self.enemy.randomize_enemy()
+        elif self.coin_counter%2!=1 and self.coin_counter>16:
+            self.enemy.randomize_enemy()
+            self.enemy2.randomize_enemy2()
         else:
             if self.coin_counter>=8 and self.coin_counter<12:
                 self.enemy.draw_enemy()
@@ -178,31 +214,37 @@ class MAIN:
                 self.enemy.draw_enemy()
             elif self.coin_counter>16 and self.coin_counter<=18:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
             elif self.coin_counter>18 and self.coin_counter<=20:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
             elif self.coin_counter>20 and self.coin_counter<=22:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
             elif self.coin_counter>22 and self.coin_counter<=24:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
             elif self.coin_counter>24 and self.coin_counter<=26:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
             elif self.coin_counter>26:
                 self.enemy.draw_enemy()
+                self.enemy2.draw_enemy2()
 
-    def collision(self):
+    def collision(self):    #detects collision between the snake and the coins
         if self.coin.pos == self.snake.body[0]:
             self.coin.randomize()
             self.snake.add_block()
-            self.coin_counter=self.coin_counter+1
+            self.coin_counter=self.coin_counter+1  #increases the score
 
-        for block in self.snake.body[1:]:
+        for block in self.snake.body[1:]:          #increases snake's length
             if block == self.coin.pos:
                 self.coin.randomize()
 
-    def failure(self):
+    def failure(self):   #if the snake collides with itself,the window or with an enemy the game is over
         if not 0 <= self.snake.body[0].x < self.cell_number or not 0 <= self.snake.body[0].y < self.cell_number:
             self.game_over()
-        if self.enemy.pos==self.snake.body[0]:
+        if self.enemy.pos==self.snake.body[0] or self.enemy2.pos2==self.snake.body[0]:
             self.game_over()
             self.enemy.randomize_enemy()
         for block in self.snake.body[1:]:
@@ -213,15 +255,16 @@ class MAIN:
         self.snake.reset()
         self.coin_counter = 0
 
-    def make_grass(self):
+    def make_grass(self):    #displays the background
         #grass_color = (167,209,61)
-        if (len(self.snake.body))-3< 8:
+        if (len(self.snake.body))-3< 8:  #level 1 background
             grass_color=(167,209,61)
             grass_color2=(175, 215, 70)
-        elif (len(self.snake.body)-3)<=15:
+            clock.tick(80)
+        elif (len(self.snake.body)-3)<=15:  #level 2 background
             grass_color=(221,211,255)
             grass_color2=(196,200,255)
-        else:
+        else:                              #level 3 background
             grass_color=(233,173,165)
             grass_color2=(255,216,173)
 
@@ -243,7 +286,7 @@ class MAIN:
                         grass_rect = pygame.Rect(col*self.cell_size,row*self.cell_size,self.cell_size,self.cell_size)
                         pygame.draw.rect(self.screen, grass_color2, grass_rect)
 
-    def scoreboard(self):
+    def scoreboard(self):    #displas the scoreboard
         score_text =str(len(self.snake.body)- 3)
         score_surface = self.game_font.render(score_text,True,(56,74,12))
         sc_x =self.cell_size*self.cell_number -60
@@ -258,8 +301,9 @@ class MAIN:
         pygame.draw.rect(self.screen,(56,74,12),bg_rect,2)
 
 
+#main code
 pygame.init()
-cell_size = 40
+cell_size = 35 #40
 cell_number = 20
 screen = pygame.display.set_mode((cell_number*cell_size, cell_number*cell_size))
 pygame.display.set_caption("Snake game")
